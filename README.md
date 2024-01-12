@@ -30,6 +30,13 @@ dotnet run --project ./src/WebApi.csproj
 ```
 4. Open a web browser and navigate to the displayed local host. It should be in your terminal after running the last command and look something like: https://localhost:7187
 
+### Running Tests
+
+1. After following steps 1 above run
+```
+dotnet test
+```
+
 ### Exiting program
 
 1. In your terminal hit `ctl + c`
