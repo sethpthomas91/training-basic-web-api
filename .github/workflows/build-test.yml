@@ -20,35 +20,29 @@ jobs:
       - name: Test Project
         run: dotnet test
 
+  example_matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os-release: ["osx-x64", "linux-x64", "win-x64"]
+    steps:
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.os-release }}
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Publish Artifacts
         run: |
-          dotnet publish src/WebApi.csproj -r osx-x64 --self-contained=true -c Release -o release/osx-x64 /p:PublishSingleFile=true
-          dotnet publish src/WebApi.csproj -r linux-x64 --self-contained=true -c Release -o release/linux-x64 /p:PublishSingleFile=true
-          dotnet publish src/WebApi.csproj -r win-x64 --self-contained=true -c Release -o release/win-x64 /p:PublishSingleFile=true
+          dotnet publish src/WebApi.csproj -r ${{ matrix.os-release }} --self-contained=true -c Release -o release/${{ matrix.os-release }} /p:PublishSingleFile=true
+
 
       - name: Copy README
         run: |
-          cp ./README.md ./release/osx-x64
-          cp ./README.md ./release/linux-x64
-          cp ./README.md ./release/win-x64
+          cp ./README.md ./release/${{ matrix.os-release }}
 
-      - name: Upload OSX Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: osx-x64
-          path: ./release/osx-x64
-
-      - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: linux-x64
-          path: ./release/linux-x64
-
-      - name: Upload Linux Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: win-x64
-          path: ./release/win-x64
-          
-
-          
+          name: ${{ matrix.os-release }}
+          path: ./release/${{ matrix.os-release }}
