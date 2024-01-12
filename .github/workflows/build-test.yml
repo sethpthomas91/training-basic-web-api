@@ -5,9 +5,17 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
-      - name: Hello World Action
-        run: |
-            echo "Hello, World!"
-            
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore Dependencies
+        run: dotnet restore
+    
+      - name: Build Project
+        run: dotnet build
+    
+      - name: Test Project
+        run: dotnet test
