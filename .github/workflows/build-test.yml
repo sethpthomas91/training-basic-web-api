@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build, Test, Publish
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
       - name: Test Project
         run: dotnet test
 
-  example_matrix:
+  publish:
     needs: build-test
     runs-on: ubuntu-latest
     strategy:
