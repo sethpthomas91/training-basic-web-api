@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-test:
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
@@ -21,14 +21,12 @@ jobs:
         run: dotnet test
 
   example_matrix:
+    needs: build-test
     runs-on: ubuntu-latest
     strategy:
       matrix:
         os-release: ["osx-x64", "linux-x64", "win-x64"]
     steps:
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.os-release }}
       - name: Checkout
         uses: actions/checkout@v3
 
