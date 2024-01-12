@@ -26,6 +26,12 @@ jobs:
           dotnet publish src/WebApi.csproj -r linux-x64 --self-contained=true -c Release -o release/linux-x64 /p:PublishSingleFile=true
           dotnet publish src/WebApi.csproj -r win-x64 --self-contained=true -c Release -o release/win-x64 /p:PublishSingleFile=true
 
+      - name: Copy README
+        run: |
+          cp ./README.md ./release/osx-x64
+          cp ./README.md ./release/linux-x64
+          cp ./README.md ./release/win-x64
+
       - name: Upload OSX Artifact
         uses: actions/upload-artifact@v3
         with:
